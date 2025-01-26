@@ -1,0 +1,27 @@
+# Arquivos e diretórios do Lazarus
+/.lazarus/
+/.lpi
+/.lpr
+/.local/
+*.ppu
+*.o
+*.exe
+*.dcu
+*.bak
+*.pdb
+*.idb
+*.gdb
+*.map
+*.dsk
+*.cfg
+*.log
+tasks.json
+
+# Diretórios de dependências
+/lib/
+/packages/
+/components/
+/fpcupdeluxe/
+/fpc/
+/ide/
+/backup/
