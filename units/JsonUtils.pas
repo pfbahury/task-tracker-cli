@@ -9,7 +9,7 @@ uses
 
 
 procedure LoadJson(FileName: string; out JArray: TJSONArray);
-
+procedure AddTask(Task: string; FileName: string);
 
 implementation
 
@@ -23,12 +23,6 @@ begin
      JArray := TJSONArray.Create;
      try
        JObject := TJSONObject.Create;
-
-       JObject.Add('id','');
-       JObject.Add('task','');
-       JObject.Add('status','');
-
-       JArray.Add(JObject);
 
        JString:= TStringList.Create;
        try
@@ -44,7 +38,7 @@ begin
      end;
    except
      on E: Exception do
-       Writeln('Erro ao criar o arquivo JSON: ', E.Message);
+       Writeln('Failure creating the JSON file: ', E.Message);
    end;
 end;
 
@@ -82,6 +76,33 @@ begin
    end;
 end;
 
+procedure AddTask(Task: string; FileName: String);
+var
+  JArray: TJSONArray;
+  JObject: TJSONObject;
+  JString: TStringList;
+begin
+  JArray := TJSONArray.Create;
+  LoadJson(FileName, JArray);
+  try
+    JObject := TJSONObject.Create;
 
+    JObject.Add('id', JArray.count +1);
+    JObject.Add('task', Task);
+    JObject.Add('status', 'todo');
+
+    JArray.Add(JObject);
+    JString := TStringList.Create;
+    try
+      JString.Text := JArray.AsJSON;
+
+      JString.SaveToFile(FileName);
+    finally
+      JString.Free;
+    end;
+  finally
+    JArray.Free;
+  end;
+end;
 end.
 
