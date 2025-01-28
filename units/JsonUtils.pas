@@ -10,6 +10,7 @@ uses
 
 procedure LoadJson(FileName: string; out JArray: TJSONArray);
 procedure AddTask(Task: string; FileName: string);
+procedure ListTasks(FileName: string);
 
 implementation
 
@@ -76,7 +77,7 @@ begin
    end;
 end;
 
-procedure AddTask(Task: string; FileName: String);
+procedure AddTask(Task: string; FileName: string);
 var
   JArray: TJSONArray;
   JObject: TJSONObject;
@@ -97,6 +98,7 @@ begin
       JString.Text := JArray.AsJSON;
 
       JString.SaveToFile(FileName);
+      WriteLn('Task added succesfully');
     finally
       JString.Free;
     end;
@@ -104,5 +106,23 @@ begin
     JArray.Free;
   end;
 end;
+
+procedure ListTasks(FileName: string);
+var
+  JArray: TJSONArray;
+  JObject: TJSONObject;
+  i: integer;
+begin
+    LoadJson(FileName, JArray);
+    for i := 0 to JArray.Count - 1 do
+    begin
+      JObject := JArray.Objects[i];
+      WriteLn('Id: ', JObject.Integers['id']);
+      WriteLn('Task: ', JObject.Strings['task']);
+      WriteLn('status: ', JObject.Strings['status']);
+      WriteLn('-------------------------------------------------------');
+    end;
+end;
+
 end.
 
