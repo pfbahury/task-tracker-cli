@@ -12,6 +12,7 @@ procedure LoadJson(FileName: string; out JArray: TJSONArray);
 procedure AddTask(Task: string; FileName: string);
 procedure ListTasks(FileName: string);
 procedure UpdateTask(FileName: string; TaskId: integer; Task: String);
+procedure UpdateTaskStatus(FileName: string; TaskId; Status: string);
 
 implementation
 
@@ -36,7 +37,6 @@ procedure CreateJson(FileName: string);
 var
   JString: TStringList;
   JArray: TJSONArray;
-  JObject: TJSONObject;
 begin
    try
      JArray := TJSONArray.Create;
@@ -99,7 +99,6 @@ procedure AddTask(Task: string; FileName: string);
 var
   JArray: TJSONArray;
   JObject: TJSONObject;
-  JString: TStringList;
 begin
   JArray := TJSONArray.Create;
   LoadJson(FileName, JArray);
@@ -138,7 +137,6 @@ procedure UpdateTask(FileName: string; TaskId: integer; Task: String);
 var
   JArray: TJSONArray;
   JObject: TJSonObject;
-  JString: TStringList;
   i: integer;
   TaskFound: boolean;
 begin
@@ -162,6 +160,36 @@ begin
       WriteLn('Task not found');
    end;
 end;
+
+procedure UpdateTaskStatus(FileName: string; TaskId; Status: string);
+var
+  JArray : TJSONArray;
+  JObject : TJSONObject;
+  i: integer;
+  TaskFound: boolean;
+begin
+  TaskFound := False;
+  LoadJson(FileName, JArray);
+  for i := 0 to JArray.Count - 1 do
+  begin
+    JObject := JArray.Objects[i];
+    if JObject.Integers['id'] = TaskId then
+    begin
+       JObject.Strings['status'] := Status;
+       SaveJson(FileName, JArray);
+       WriteLn('Task status set to: ', status)
+       TaskFound := True;
+    end;
+  end;
+
+  if not TaskFound then
+  begin
+     WriteLn('Task not found');
+  end;
+end;
+
+
+
 
 end.
 
