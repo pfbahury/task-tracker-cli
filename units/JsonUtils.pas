@@ -107,10 +107,15 @@ begin
     JObject := TJSONObject.Create;
 
     JObject.Add('id', JArray.count +1);
-    JObject.Add('task', Task);
+    JObject.Add('description', Task);
     JObject.Add('status', 'todo');
+    JObject.Add('createdAt', DateTimeToStr(Now));
+    JObject.Add('updatedAt', DateTimeToStr(Now));
 
     JArray.Add(JObject);
+
+    SaveJson(FileName, JArray);
+    WriteLn('Test added successfully');
 
   finally
     JArray.Free;
@@ -128,8 +133,10 @@ begin
     begin
       JObject := JArray.Objects[i];
       WriteLn('Id: ', JObject.Integers['id']);
-      WriteLn('Task: ', JObject.Strings['task']);
-      WriteLn('status: ', JObject.Strings['status']);
+      WriteLn('Task: ', JObject.Strings['description']);
+      WriteLn('Status: ', JObject.Strings['status']);
+      WriteLn('Created at: ', JObject.Strings['createdAt']);
+      WriteLn('Updated at: ', JObject.Strings['updatedAt']);
       WriteLn('-------------------------------------------------------');
     end;
 end;
@@ -148,7 +155,8 @@ begin
      JObject := JArray.Objects[i];
      if JObject.Integers['id'] = TaskId then
      begin
-        JObject.Strings['task'] := Task;
+        JObject.Strings['description'] := Task;
+        JObject.Strings['updatedAt'] := DateTimeToStr(Now);
         SaveJson(FileName, JArray);
         WriteLn('Task Updated Successfully');
         TaskFound := True;
@@ -177,6 +185,7 @@ begin
     if JObject.Integers['id'] = TaskId then
     begin
        JObject.Strings['status'] := Status;
+       JObject.Strings['updatedAt'] := DateTimeToStr(Now);
        SaveJson(FileName, JArray);
        WriteLn('Task status set to: ', status);
        TaskFound := True;
