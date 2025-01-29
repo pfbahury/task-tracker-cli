@@ -12,7 +12,7 @@ procedure LoadJson(FileName: string; out JArray: TJSONArray);
 procedure AddTask(Task: string; FileName: string);
 procedure ListTasks(FileName: string);
 procedure UpdateTask(FileName: string; TaskId: integer; Task: String);
-procedure UpdateTaskStatus(FileName: string; TaskId; Status: string);
+procedure UpdateTaskStatus(FileName: string; TaskId: integer; Status: string);
 
 implementation
 
@@ -37,6 +37,7 @@ procedure CreateJson(FileName: string);
 var
   JString: TStringList;
   JArray: TJSONArray;
+  JObject: TJSONObject;
 begin
    try
      JArray := TJSONArray.Create;
@@ -89,7 +90,7 @@ begin
    end
    else
    begin
-     WriteLn('File not found, creating a new JSON file...');
+     //WriteLn('File not found, creating a new JSON file...');
      CreateJson(FileName);
      LoadJson(FileName, JArray)
    end;
@@ -161,7 +162,7 @@ begin
    end;
 end;
 
-procedure UpdateTaskStatus(FileName: string; TaskId; Status: string);
+procedure UpdateTaskStatus(FileName: string; TaskId: integer; Status: string);
 var
   JArray : TJSONArray;
   JObject : TJSONObject;
@@ -177,7 +178,7 @@ begin
     begin
        JObject.Strings['status'] := Status;
        SaveJson(FileName, JArray);
-       WriteLn('Task status set to: ', status)
+       WriteLn('Task status set to: ', status);
        TaskFound := True;
     end;
   end;
@@ -187,7 +188,6 @@ begin
      WriteLn('Task not found');
   end;
 end;
-
 
 
 

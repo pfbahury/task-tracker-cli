@@ -22,13 +22,52 @@ begin
   WriteLn('1 - Add a new task');
   WriteLn('2 - List tasks');
   WriteLn('3 - Update task');
+  WriteLn('4 - Update task status');
   WriteLn('.exit - Exit the program');
   Writeln('---------------------------------------------------------');
   Write('Input: ');
 end;
 
+function getStatus():string;
 var
-  input, Task : string;
+  StatusInput: string;
+  IsValid: boolean;
+begin
+  IsValid := false;
+  WriteLn('Choose a new status: ');
+  WriteLn('1 - todo');
+  WriteLn('2 - in-progress');
+  WriteLn('3 - done');
+  Write('Input: ');
+  repeat
+     ReadLn(StatusInput);
+     case StatusInput of
+       '1':
+         begin
+           Result := 'todo';
+           IsValid := True;
+         end;
+       '2':
+         begin
+           Result := 'in-progress';
+           IsValid := True;
+         end;
+       '3':
+         begin
+           Result := 'done';
+           IsValid := True;
+         end;
+     else
+      begin
+        Write('Invalid status, Try Again: ');
+      end;
+     end;
+  until IsValid ;
+
+end;
+
+var
+  input, Task, Status: string;
   TaskId : Integer;
 
 const FILE_NAME = 'tasks.json';
@@ -65,6 +104,17 @@ begin
            UpdateTask(FILE_NAME, TaskId, Task);
            WriteLn('Returning to main menu...');
            Sleep(1500);
+           RenderMenu();
+         end;
+       '4':
+         begin
+           ClrScr;
+           Write('Updated task id: ');
+           ReadLn(TaskId);
+           Status:=getStatus();
+           UpdateTaskStatus(FILE_NAME, TaskId, Status);
+           WriteLn('Returning to main menu...');
+           Sleep(2000);
            RenderMenu();
          end;
        '.exit':
