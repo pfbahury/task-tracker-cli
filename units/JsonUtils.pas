@@ -13,6 +13,7 @@ procedure AddTask(Task: string; FileName: string);
 procedure ListTasks(FileName: string);
 procedure UpdateTask(FileName: string; TaskId: integer; Task: String);
 procedure UpdateTaskStatus(FileName: string; TaskId: integer; Status: string);
+procedure DeleteTask(FileName: string; TaskId: integer);
 
 implementation
 
@@ -196,6 +197,41 @@ begin
   begin
      WriteLn('Task not found');
   end;
+end;
+
+procedure DeleteTask(FileName: string; TaskId: integer);
+var
+  JArray: TJSONArray;
+  JObject : TJSONObject;
+  i: integer;
+  TaskFound : Boolean;
+begin
+  TaskFound:=False;
+  LoadJson(FileName,JArray);
+  for i := 0 to JArray.Count - 1 do
+  begin
+    JObject := JArray.Objects[i];
+    if JObject.Integers['id'] = TaskId then
+    begin
+       JArray.Delete(i);
+       WriteLn('Task deleted successfully.');
+       //SaveJson(FileName,JArray);
+       TaskFound:=True;
+    end;
+  end;
+
+  if not TaskFound then
+  begin
+    WriteLn('Task not found');
+    Exit;
+  end;
+
+  for i:=0 to JArray.Count - 1 do
+  begin
+    JObject := JArray.Objects[i];
+    JObject.Integers['id'] := i + 1;
+  end;
+  SaveJson(FileName, JArray);
 end;
 
 
