@@ -8,8 +8,8 @@ uses
   {$ENDIF}
     Classes
   , SysUtils
-  , fpjson
-  , JSONParser
+  //, fpjson
+  //, JSONParser
   , JsonUtils
   , crt
   ;
@@ -21,14 +21,15 @@ begin
   Writeln('---------------------------------------------------------');
   WriteLn('1 - Add a new task');
   WriteLn('2 - List tasks');
-  WriteLn('3 - Update tasks');
+  WriteLn('3 - Update task');
   WriteLn('.exit - Exit the program');
   Writeln('---------------------------------------------------------');
   Write('Input: ');
 end;
 
 var
-  input, Task: string;
+  input, Task : string;
+  TaskId : Integer;
 
 const FILE_NAME = 'tasks.json';
 
@@ -54,10 +55,22 @@ begin
            Readln;
            RenderMenu();
          end;
+       '3':
+         begin
+           ClrScr;
+           Write('Updated task id: ');
+           ReadLn(TaskId);
+           Write('Updated task description: ');
+           ReadLn(Task);
+           UpdateTask(FILE_NAME, TaskId, Task);
+           WriteLn('Returning to main menu...');
+           Sleep(1500);
+           RenderMenu();
+         end;
        '.exit':
          begin
            Write('Bye Bye :)');
-           Sleep(500);
+           Sleep(750);
          end;
        else
         begin

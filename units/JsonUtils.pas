@@ -11,8 +11,26 @@ uses
 procedure LoadJson(FileName: string; out JArray: TJSONArray);
 procedure AddTask(Task: string; FileName: string);
 procedure ListTasks(FileName: string);
+procedure UpdateTask(FileName: string; TaskId: integer; Task: String);
 
 implementation
+
+procedure SaveJson(FileName: String; JArray: TJSONArray);
+var
+  JString: TStringList;
+begin
+  JString := TStringList.Create;
+  try
+    JString.Text := JArray.AsJSON;
+    JString.SaveToFile(FileName);
+  except
+    on E: Exception do
+    begin
+      WriteLn('Failure when saving JSON: ', E.Message);
+    end;
+  end;
+  JString.Free;
+end;
 
 procedure CreateJson(FileName: string);
 var
@@ -93,15 +111,7 @@ begin
     JObject.Add('status', 'todo');
 
     JArray.Add(JObject);
-    JString := TStringList.Create;
-    try
-      JString.Text := JArray.AsJSON;
 
-      JString.SaveToFile(FileName);
-      WriteLn('Task added succesfully');
-    finally
-      JString.Free;
-    end;
   finally
     JArray.Free;
   end;
@@ -122,6 +132,35 @@ begin
       WriteLn('status: ', JObject.Strings['status']);
       WriteLn('-------------------------------------------------------');
     end;
+end;
+
+procedure UpdateTask(FileName: string; TaskId: integer; Task: String);
+var
+  JArray: TJSONArray;
+  JObject: TJSonObject;
+  JString: TStringList;
+  i: integer;
+  TaskFound: boolean;
+begin
+   TaskFound := False;
+   LoadJson(FileName, JArray);
+   for i := 0 to JArray.Count - 1 do
+   begin
+     JObject := JArray.Objects[i];
+     if JObject.Integers['id'] = TaskId then
+     begin
+        JObject.Strings['task'] := Task;
+        SaveJson(FileName, JArray);
+        WriteLn('Task Updated Successfully');
+        TaskFound := True;
+        Break;
+     end;
+   end;
+
+   if not TaskFound then
+   begin
+      WriteLn('Task not found');
+   end;
 end;
 
 end.
