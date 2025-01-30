@@ -23,6 +23,7 @@ begin
   WriteLn('2 - List tasks');
   WriteLn('3 - Update task');
   WriteLn('4 - Update task status');
+  WriteLn('5 - Delete task');
   WriteLn('.exit - Exit the program');
   Writeln('---------------------------------------------------------');
   Write('Input: ');
@@ -113,6 +114,16 @@ begin
            ReadLn(TaskId);
            Status:=getStatus();
            UpdateTaskStatus(FILE_NAME, TaskId, Status);
+           WriteLn('Returning to main menu...');
+           Sleep(2000);
+           RenderMenu();
+         end;
+       '5':
+         begin
+           ClrScr;
+           Write('Task to be deleted: ');
+           ReadLn(TaskId);
+           DeleteTask(FILE_NAME, TaskId);
            WriteLn('Returning to main menu...');
            Sleep(2000);
            RenderMenu();
