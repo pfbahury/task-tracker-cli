@@ -8,9 +8,9 @@
       <Unit>
         <Filename Value="main.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="104"/>
-        <CursorPos X="47" Y="125"/>
-        <UsageCount Value="89"/>
+        <TopLine Value="88"/>
+        <CursorPos X="12" Y="104"/>
+        <UsageCount Value="90"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,9 +18,10 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="203"/>
-        <CursorPos X="98" Y="224"/>
-        <UsageCount Value="63"/>
+        <TopLine Value="28"/>
+        <CursorPos X="24" Y="42"/>
+        <FoldState Value=" T3kG0R2 PiHiF0r"/>
+        <UsageCount Value="64"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -38,13 +39,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="units\JsonUtils.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="units\JsonUtils.pas"/>
-        <Caret Line="22" Column="3"/>
-      </Position>
       <Position>
         <Filename Value="units\JsonUtils.pas"/>
         <Caret Line="21" Column="4"/>
@@ -155,6 +149,14 @@
       <Position>
         <Filename Value="main.lpr"/>
         <Caret Line="125" Column="47" TopLine="104"/>
+      </Position>
+      <Position>
+        <Filename Value="units\JsonUtils.pas"/>
+        <Caret Line="17" Column="62"/>
+      </Position>
+      <Position>
+        <Filename Value="main.lpr"/>
+        <Caret Line="104" Column="12" TopLine="88"/>
       </Position>
     </JumpHistory>
     <RunParams>

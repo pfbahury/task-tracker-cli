@@ -14,6 +14,7 @@ procedure ListTasks(FileName: string);
 procedure UpdateTask(FileName: string; TaskId: integer; Task: String);
 procedure UpdateTaskStatus(FileName: string; TaskId: integer; Status: string);
 procedure DeleteTask(FileName: string; TaskId: integer);
+procedure ListTaskByStatus(FileName: string; Status: string);
 
 implementation
 
@@ -216,7 +217,6 @@ begin
     begin
        JArray.Delete(i);
        WriteLn('Task deleted successfully.');
-       //SaveJson(FileName,JArray);
        TaskFound:=True;
        Break;
     end;
@@ -234,6 +234,33 @@ begin
     JObject.Integers['id'] := i + 1;
   end;
   SaveJson(FileName, JArray);
+end;
+
+procedure ListTaskByStatus(FileName: string; Status: string);
+var
+  JObject: TJSONObject;
+  JArray : TJSONArray;
+  i: integer;
+begin
+  LoadJson(FileName, JArray);
+  for i:=0 to Jarray.Count - 1 do
+  begin
+    JObject := JArray.Objects[i];
+    if  JObject.Strings['status'] = Status then
+    begin
+      WriteLn('Id: ', JObject.Integers['id']);
+      WriteLn('Task: ', JObject.Strings['description']);
+      WriteLn('Status: ', JObject.Strings['status']);
+      WriteLn('Created at: ', JObject.Strings['createdAt']);
+      WriteLn('Updated at: ', JObject.Strings['updatedAt']);
+      WriteLn('-------------------------------------------------------');
+    end
+    else
+    begin
+      WriteLn('No tasks in "',Status,'" status found');
+    end;
+  end;
+
 end;
 
 

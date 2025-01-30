@@ -21,9 +21,10 @@ begin
   Writeln('---------------------------------------------------------');
   WriteLn('1 - Add a new task');
   WriteLn('2 - List tasks');
-  WriteLn('3 - Update task');
-  WriteLn('4 - Update task status');
-  WriteLn('5 - Delete task');
+  WriteLn('3 - List tasks by status');
+  WriteLn('4 - Update task');
+  WriteLn('5 - Update task status');
+  WriteLn('6 - Delete task');
   WriteLn('.exit - Exit the program');
   Writeln('---------------------------------------------------------');
   Write('Input: ');
@@ -35,7 +36,7 @@ var
   IsValid: boolean;
 begin
   IsValid := false;
-  WriteLn('Choose a new status: ');
+  WriteLn('Choose a status: ');
   WriteLn('1 - todo');
   WriteLn('2 - in-progress');
   WriteLn('3 - done');
@@ -98,6 +99,15 @@ begin
        '3':
          begin
            ClrScr;
+           Status := getStatus();
+           ListTaskByStatus(FILE_NAME, Status);
+           Write('Press enter key to return');
+           Readln;
+           RenderMenu();
+         end;
+       '4':
+         begin
+           ClrScr;
            Write('Updated task id: ');
            ReadLn(TaskId);
            Write('Updated task description: ');
@@ -107,7 +117,7 @@ begin
            Sleep(1500);
            RenderMenu();
          end;
-       '4':
+       '5':
          begin
            ClrScr;
            Write('Updated task id: ');
@@ -118,7 +128,7 @@ begin
            Sleep(2000);
            RenderMenu();
          end;
-       '5':
+       '6':
          begin
            ClrScr;
            Write('Task to be deleted: ');
