@@ -190,6 +190,7 @@ begin
        SaveJson(FileName, JArray);
        WriteLn('Task status set to: ', status);
        TaskFound := True;
+       Break;
     end;
   end;
 
@@ -208,7 +209,7 @@ var
 begin
   TaskFound:=False;
   LoadJson(FileName,JArray);
-  for i := 0 to JArray.Count - 1 do
+  for i := JArray.Count - 1 downto 0 do
   begin
     JObject := JArray.Objects[i];
     if JObject.Integers['id'] = TaskId then
@@ -217,6 +218,7 @@ begin
        WriteLn('Task deleted successfully.');
        //SaveJson(FileName,JArray);
        TaskFound:=True;
+       Break;
     end;
   end;
 
